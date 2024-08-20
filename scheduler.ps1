@@ -9,11 +9,16 @@ param (
     [string]$Password,
 
     [Parameter(Mandatory=$false, HelpMessage="MEANT FOR INTERNAL USE ONLY. DO NOT USE PASS AS PARAMETER!")]
-    [string]$LoginScriptPath = $null
-)
+    [string]$LoginScriptPath = $null,
 
+    [Parameter(Mandatory=$false, HelpMessage="MEANT FOR INTERNAL USE ONLY. DO NOT USE PASS AS PARAMETER!")]
+    [string]$LogFilePath = $null
+)
 $taskName = "PulchowkWifiAutoLogin"
-$LoginScriptPath = if ($LoginScriptPath) { $LoginScriptPath } else {Join-Path (Get-Location) -ChildPath "login.ps1"}
+
+$projectLocation = Split-Path -Parent $PSCommandPath
+$LoginScriptPath = if ($LoginScriptPath) { $LoginScriptPath } else {Join-Path $projectLocation -ChildPath "utm_login\utm_login.exe"}
+$LogFilePath = if ($LogFilePath) { $LogFilePath } else {Join-Path $projectLocation -ChildPath "output.log"}
 
 # If not running as administrator, relaunch the script with elevated privileges
 function Test-Administrator {
@@ -21,7 +26,7 @@ function Test-Administrator {
     return $currentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
 if (-not (Test-Administrator)) {
-    $argList = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" -Username `"$Username`" -Password `"$Password`" -LoginScriptPath `"$LoginScriptPath`""
+    $argList = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" -Username `"$Username`" -Password `"$Password`" -LoginScriptPath `"$LoginScriptPath`" -LogFilePath `"$LogFilePath`""
     $newProcess = Start-Process powershell -ArgumentList $argList -Verb RunAs -PassThru
     $newProcess.WaitForExit()
     exit
@@ -33,12 +38,16 @@ if(Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue){
 
 <#
 Bascially registers a trigger using schtasks with the following parameters:
-Logs = Microsoft-Windows-NetworkProfile/Operational 
+    Logs = Microsoft-Windows-NetworkProfile/Operational 
     Source = Microsoft-Windows-NetworkProfile
-    event = 10000 (which is network event for network profile changed)
+    EventID = 10000 (which is network event for network profile changed)
 #>
+# $taskCommand = @"
+# schtasks /create /tn $taskName /tr `"powershell.exe -NoProfile -ExecutionPolicy Bypass -File $LoginScriptPath -Username $Username -Password $Password`" /sc onevent /ec Microsoft-Windows-NetworkProfile/Operational /mo "*[System[Provider[@Name='Microsoft-Windows-NetworkProfile'] and (EventID=10000)]]" /ru SYSTEM /rl HIGHEST
+# "@
+ 
 $taskCommand = @"
-schtasks /create /tn $taskName /tr `"powershell.exe -NoProfile -ExecutionPolicy Bypass -File $LoginScriptPath -Username $username -Password $password`" /sc onevent /ec Microsoft-Windows-NetworkProfile/Operational /mo "*[System[Provider[@Name='Microsoft-Windows-NetworkProfile'] and (EventID=10000)]]" /ru SYSTEM /rl HIGHEST
+schtasks /create /tn $taskName /tr `"cmd /c $LoginScriptPath -username='$Username' -password='$Password' >> $LogFilePath 2>&1`" /sc onevent /ec Microsoft-Windows-NetworkProfile/Operational /mo "*[System[Provider[@Name='Microsoft-Windows-NetworkProfile'] and (EventID=10000)]]" /ru SYSTEM /rl HIGHEST
 "@
 Invoke-Expression $taskCommand
 
