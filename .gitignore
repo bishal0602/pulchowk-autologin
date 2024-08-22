@@ -3,3 +3,4 @@ repl.ps1
 output.log
 curllogin.sh
 go_test
+*.exe
