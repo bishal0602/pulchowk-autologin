@@ -33,5 +33,5 @@ func main() {
 		log.Fatalf("Failed to login to UTM: %v", err)
 	}
 
-	log.Println("Failed to make a successful request after retries.")
+	log.Println("Successfully logged in to campus UTM server.")
 }

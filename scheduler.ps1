@@ -43,7 +43,7 @@ Bascially registers a trigger using schtasks with the following parameters:
     EventID = 10000 (which is network event for network profile changed)
 #>
 $taskCommand = @"
-schtasks /create /tn $taskName /tr `"cmd /c $LoginExectablePath -username='$Username' -password='$Password' >> $LogFilePath 2>&1`" /sc onevent /ec Microsoft-Windows-NetworkProfile/Operational /mo "*[System[Provider[@Name='Microsoft-Windows-NetworkProfile'] and (EventID=10000)]]" /ru SYSTEM /rl HIGHEST
+schtasks /create /tn $taskName /tr `"cmd /c $LoginExectablePath -username='$Username' -password='$Password' > $LogFilePath 2>&1`" /sc onevent /ec Microsoft-Windows-NetworkProfile/Operational /mo "*[System[Provider[@Name='Microsoft-Windows-NetworkProfile'] and (EventID=10000)]]" /ru SYSTEM /rl HIGHEST
 "@
 Invoke-Expression $taskCommand
 
