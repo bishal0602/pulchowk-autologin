@@ -3,6 +3,8 @@
 package wifi
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
 	"os/exec"
 	"strings"
@@ -10,15 +12,25 @@ import (
 
 func GetCurrentWifiSSID() (string, error) {
 	cmd := exec.Command("netsh", "wlan", "show", "interfaces")
-	output, err := cmd.Output()
-	if err != nil {
-		return "", fmt.Errorf("error executing command: %v", err)
+
+	var out bytes.Buffer
+	cmd.Stdout = &out
+
+	if err := cmd.Run(); err != nil {
+		return "", fmt.Errorf("error executing command: %w", err)
 	}
-	ssid := ""
-	for _, line := range strings.Split(string(output), "\n") {
+
+	scanner := bufio.NewScanner(&out)
+	for scanner.Scan() {
+		line := scanner.Text()
 		if strings.Contains(line, " SSID") {
-			ssid = strings.TrimSpace(strings.Split(line, ":")[1])
+			return strings.TrimSpace(strings.SplitN(line, ":", 2)[1]), nil
 		}
 	}
-	return ssid, nil
+
+	if err := scanner.Err(); err != nil {
+		return "", fmt.Errorf("error reading command output: %w", err)
+	}
+
+	return "", fmt.Errorf("unable to obtain SSID")
 }
