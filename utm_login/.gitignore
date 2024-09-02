@@ -6,6 +6,9 @@ bin/
 *.so
 *.dylib
 
+# Binary for darwin
+utm_login 
+
 # Test binary, built with `go test -c`
 *.test
 
