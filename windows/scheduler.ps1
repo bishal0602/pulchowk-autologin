@@ -17,7 +17,7 @@ param (
 $taskName = "PulchowkWifiAutoLogin"
 
 $rootDir = Split-Path -Parent $PSCommandPath
-$LoginExectablePath = if ($LoginExectablePath) { $LoginExectablePath } else {Join-Path $rootDir -ChildPath "utm_login\utm_login.exe"}
+$LoginExectablePath = if ($LoginExectablePath) { $LoginExectablePath } else {Resolve-Path (Join-Path $rootDir -ChildPath "..\utm_login\utm_login.exe")}
 $LogFilePath = if ($LogFilePath) { $LogFilePath } else {Join-Path $rootDir -ChildPath "output.log"}
 
 # If not running as administrator, relaunch the script with elevated privileges
