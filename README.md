@@ -1,8 +1,8 @@
-# WifiAutoLogin
+# Pulchowk Wifi Auto Login
 Zero click login to Pulchowk Campus WiFi's UTM server whenever you connect to campus network for Windows devices(currently). No more dealing with those laggy UTM login pages!
 
 > [!WARNING]  
-> This program requires elevated system privileges to work properly. Make sure you trust the source the author(that would be me) and the code before running it.
+> This program requires elevated system privileges to work properly. Make sure you trust the author(that would be me) and the source code before running it.
 
 ## Installation (Windows)
 
@@ -19,6 +19,9 @@ When you connect to any WiFi network, the login program is triggered by Windows 
 
 ## Linux/MacOS Support
 Currently, this tool only supports Windows as I haven't worked with Linux/MacOS systems much. So, If you'd like to contribute and help port this to Linux/MacOS, your help would be greatly appreciated! The core login logic is written in Go, so it should be relatively straightforward to adapt for other platforms.
+
+## Android Support
+Background network change event listeners seem to be heavily restricted/deprecated on Android. Implementing a continous background service to monitor network changes would be highly energy-inefficient. Or you would need an app/widget that would do the login for you. So, I figured it wasn’t worth the hassle.
 
 ## Want to uninstall?
 Just run the `windows/unscheduler.ps1` then remove the downloaded `PulchowkWifiAutoLogin` folder.
