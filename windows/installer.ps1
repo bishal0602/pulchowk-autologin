@@ -12,9 +12,9 @@ if(-not $arch){
     exit 1
 }
 
-$schedulerScriptUrl = "http://dist.bishal0602.com.np/pcampus/scheduler.ps1"
-$unschedulerScriptUrl = "http://dist.bishal0602.com.np/pcampus/unscheduler.ps1"
-$loginExecutableUrl = "http://dist.bishal0602.com.np/pcampus/bin/utm_login-windows-$arch.exe"
+$schedulerScriptUrl = "https://dist.bishal0602.com.np/pcampus/scheduler.ps1"
+$unschedulerScriptUrl = "https://dist.bishal0602.com.np/pcampus/unscheduler.ps1"
+$loginExecutableUrl = "https://dist.bishal0602.com.np/pcampus/bin/utm_login-windows-$arch.exe"
 
 
 function DownloadFile {
