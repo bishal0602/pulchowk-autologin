@@ -29,7 +29,7 @@ func main() {
 		return
 	}
 
-	if err := utm.LoginToUTM(*username, *password, 3); err != nil {
+	if err := utm.LoginToUTM(*username, *password, 5); err != nil {
 		log.Fatalf("Failed to login to UTM: %v", err)
 	}
 

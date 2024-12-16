@@ -38,7 +38,7 @@ func LoginToUTM(username, password string, retries int) error {
 	} // adding lots of headers for "reasons" ;)
 
 	// Retry, Timeout & SSL Policy
-	retryDelay := 2 * time.Second
+	retryDelay := 3 * time.Second
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 		Transport: &http.Transport{
@@ -62,7 +62,7 @@ func LoginToUTM(username, password string, retries int) error {
 		if err != nil {
 			log.Printf("Error making request (attempt %d/%d): %v\n", i+1, retries, err)
 			if i < retries-1 {
-				time.Sleep(retryDelay)
+				time.Sleep(time.Duration(i+1) * retryDelay)
 			}
 			continue
 		}
