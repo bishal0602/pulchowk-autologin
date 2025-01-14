@@ -18,7 +18,7 @@ func main() {
 		log.Fatalf("Require flags: %s -username=<username> -password=<password>", os.Args[0])
 	}
 
-	campusSSIDs := []string{"PC_ELEXCOMP", "PC-ELEXCOMP", "CITPC", "CIT AP", "PC-Civil"}
+	campusSSIDs := []string{"Block A", "Block B", "Block C", "PC_ELEXCOMP", "PC-ELEXCOMP", "CITPC", "CIT AP", "PC-Civil"}
 
 	wifiSSID, err := wifi.GetCurrentWifiSSID()
 	if err != nil {
@@ -29,7 +29,7 @@ func main() {
 		return
 	}
 
-	if err := utm.LoginToUTM(*username, *password, 3); err != nil {
+	if err := utm.LoginToUTM(*username, *password, 5); err != nil {
 		log.Fatalf("Failed to login to UTM: %v", err)
 	}
 
