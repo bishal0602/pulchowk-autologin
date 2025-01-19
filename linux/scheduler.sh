@@ -17,7 +17,7 @@ source $1
 _temp_file="${_SCRIPT_DIR}/${_DISPATCHER_FILE}"
 
 echo -ne \
-'#!/bin/bash\n\n' > ${_temp_file}
+'#!/usr/bin/env bash\n\n' > ${_temp_file}
 
 echo -ne \
 "source $1\n" >> ${_temp_file}
