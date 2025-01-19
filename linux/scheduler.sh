@@ -27,16 +27,8 @@ echo -ne \
 iface=$1
 action=$2
 
-_log_time=$(date +"%b %d %H:%M:%S")
-
 if [[ "$action" == "up" ]]; then
 	"$UTM_LOGIN_BIN" -username="$_UTM_USERNAME" -password="$_UTM_PASSWORD"
-
-	if [[ $? -eq 0 ]]; then
-		echo "${_log_time} Successfully logged in." >> $LOGFILE
-	else
-		echo "${_log_time} Failed to log in." >> $LOGFILE
-	fi
 fi
 
 ' >> ${_temp_file}

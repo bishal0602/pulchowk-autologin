@@ -48,8 +48,6 @@ _binary_path="${_script_dir}/utm_login"
 _scheduler_path="${_script_dir}/scheduler.sh"
 _unscheduler_path="${_script_dir}/unscheduler.sh"
 
-_log_path="${_script_dir}/login.log"
-
 if [[ ! -d ${_script_dir} ]]; then
 	echo -ne "Creating directory: ${_script_dir}\n\n"
 	mkdir -p ${_script_dir}
@@ -63,8 +61,6 @@ echo -ne "" > $_env_file
 #Export Scripts Directory
 echo "export _SCRIPT_DIR='${_script_dir}'" >> $_env_file
 echo "export UTM_LOGIN_BIN='${_binary_path}'" >> $_env_file
-echo "export LOGFILE='${_log_path}'" >> $_env_file
-
 
 #Function for downloading file
 download_file(){
