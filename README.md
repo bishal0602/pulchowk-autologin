@@ -40,7 +40,7 @@ sudo apt-get -y install curl
 ```bash
 curl -s -o installer.sh https://dist.bishal0602.com.np/pcampus/installer.sh && \
 sudo chmod 755 installer.sh && \
-sudo ./installer.sh
+./installer.sh
 ```
 
 ## How it works?
