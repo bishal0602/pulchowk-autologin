@@ -57,7 +57,12 @@ On Linux/MacOS, the program integrates with the system's `NetworkManager` to mon
 Background network change event listeners seem to be heavily restricted/deprecated on Android. Implementing a continous background service to monitor network changes would be highly energy-inefficient. Or you would need an app/widget that would do the login for you. So, I figured it wasn’t worth the hassle.
 
 ### Linux Distros
-Tested on Debian/Ubuntu-based distributions. Other distributions like Fedora or Arch may require minor adjustments due to differing system configurations. 
+Tested on Debian/Ubuntu-based distributions. Other distributions like Fedora or Arch may require minor adjustments due to differing system configurations.
+
+To see the logs of NetworkManager-dispatcher:
+```bash
+journalctl -u NetworkManager-dispatcher -f
+```
 
 
 ## Uninstall
