@@ -4,7 +4,7 @@ import (
 	"flag"
 	"log"
 	"os"
-	"slices"
+	"strings"
 	"utm_login/internal/utm"
 	"utm_login/internal/wifi"
 )
@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to get current wifi SSID: %v", err)
 	}
-	if !slices.Contains(campusSSIDs, wifiSSID) {
+	if !hasPrefix(wifiSSID, campusSSIDs) {
 		log.Printf("Not connected to campus wifi. Current wifi: %s Exiting.", wifiSSID)
 		return
 	}
@@ -34,4 +34,13 @@ func main() {
 	}
 
 	log.Println("Successfully logged in to campus UTM server.")
+}
+
+func hasPrefix(ssid string, prefixes []string) bool {
+	for _, prefix := range prefixes {
+		if strings.HasPrefix(ssid, prefix) {
+			return true
+		}
+	}
+	return false
 }
